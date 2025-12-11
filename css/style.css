@@ -1,21 +1,46 @@
-/* Dark background */
+/* ────────────────────────────────
+   Global Page Styling (Dark Theme)
+   ──────────────────────────────── */
 body {
     margin: 0;
     padding: 10px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background: #0d0d0f;
     color: #eaeaea;
+
+    /* iPhone notch safe area */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Mobile-first layout */
+/* ────────────────────────────────
+   Table Wrapper (Horizontal Scroll)
+   ──────────────────────────────── */
 .table-wrapper {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iPhone */
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
 }
 
-/* Dark table */
+/* Scroll shadow hint (shows user they can swipe horizontally) */
+.table-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 100%;
+    background: linear-gradient(to left, #0d0d0f, transparent);
+    pointer-events: none;
+}
+
+/* Prevent table from shrinking on mobile */
 table {
     width: 100%;
+    min-width: 600px; /* ensures sideways scrolling */
     border-collapse: collapse;
     background: #141417;
     color: #e0e0e0;
@@ -23,7 +48,9 @@ table {
     overflow: hidden;
 }
 
-/* Table cells */
+/* ────────────────────────────────
+   Table Cells
+   ──────────────────────────────── */
 td {
     padding: 12px 10px;
     border-bottom: 1px solid #2a2a2d;
@@ -31,16 +58,17 @@ td {
     word-break: break-word;
 }
 
-/* Header row */
+/* Header Row */
 .header td {
     background: #1f1f23;
     color: #ffffff;
     font-weight: 600;
 }
 
-/* Hover effect */
+/* Hover Effect (desktop & mobile) */
 tr:hover td {
     background: #242428;
+    transition: background 0.15s ease;
 }
 
 /* Remove last row border */
@@ -48,7 +76,9 @@ tr:last-child td {
     border-bottom: none;
 }
 
-/* Mobile optimizations (especially iPhone) */
+/* ────────────────────────────────
+   Mobile Tweaks
+   ──────────────────────────────── */
 @media (max-width: 600px) {
     td {
         padding: 10px 8px;
@@ -60,12 +90,12 @@ tr:last-child td {
     }
 
     body {
-        padding: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
     }
-}
 
-/* iPhone notch safe area */
-body {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+    /* Make scrolling easier to see on mobile */
+    .table-wrapper {
+        margin-top: 5px;
+    }
 }
