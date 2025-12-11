@@ -47,7 +47,7 @@ tr:last-child td {
     border-bottom: none;
 }
 
-/* Mobile adjustments */
+
 @media (max-width: 650px) {
     .table-wrapper {
         overflow-x: auto;
@@ -69,7 +69,7 @@ tr:last-child td {
         padding: 8px;
     }
 
-    /* Scroll shadow */
+
     .table-wrapper::after {
         content: "";
         position: absolute;
