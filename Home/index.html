@@ -22,7 +22,6 @@
       return new Date(ts);
     }
 
-    // Format timestamp as MM/DD/YYYY h:mm AM/PM
     function formatTime(ts) {
       const d = new Date(ts);
       const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -62,7 +61,7 @@
         const body = rows.slice(1);
         const timestampIndex = header.indexOf("Timestamp");
 
-        // Sort newest first using original timestamp
+ 
         body.sort((a,b) => parseTimestamp(b[timestampIndex]) - parseTimestamp(a[timestampIndex]));
 
         document.getElementById("table-container").innerHTML =
