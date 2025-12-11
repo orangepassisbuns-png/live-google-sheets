@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Google Sheets Data</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Live Google Sheets</title>
     <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 
-    <h1>Live Google Sheets Data</h1>
     <div id="table-container">Loading...</div>
 
     <script>
@@ -24,17 +23,15 @@
         }
 
         function buildTable(rows) {
-            let html = "<table>";
+            let html = `<div class="table-wrapper"><table>`;
 
             rows.forEach((row, idx) => {
                 html += idx === 0 ? "<tr class='header'>" : "<tr>";
-                row.forEach(cell => {
-                    html += `<td>${cell}</td>`;
-                });
+                row.forEach(cell => html += `<td>${cell}</td>`);
                 html += "</tr>";
             });
 
-            html += "</table>";
+            html += "</table></div>";
             return html;
         }
 
@@ -52,12 +49,11 @@
                     body.sort((a, b) => {
                         const dateA = parseTimestamp(a[timestampIndex]);
                         const dateB = parseTimestamp(b[timestampIndex]);
-                        return dateB - dateA; // newest first
+                        return dateB - dateA;
                     });
                 }
 
                 const sortedRows = [header, ...body];
-
                 document.getElementById("table-container").innerHTML =
                     buildTable(sortedRows);
             })
@@ -70,4 +66,3 @@
 
 </body>
 </html>
-
