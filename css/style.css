@@ -1,88 +1,62 @@
-/* ────────────────────────────────
-   Global Page Styling (Dark Theme)
-   ──────────────────────────────── */
+/* Dark background */
 body {
     margin: 0;
-    padding: 10px;
+    padding: 12px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background: #0d0d0f;
     color: #eaeaea;
 
-    /* iPhone notch safe area */
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ────────────────────────────────
-   Table Wrapper (Horizontal Scroll)
-   ──────────────────────────────── */
-.table-wrapper {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch; /* smooth scrolling on iPhone */
+/* Responsive table container */
+#table-container {
     width: 100%;
-    position: relative;
-    margin-top: 10px;
 }
 
-/* Scroll shadow hint (shows user they can swipe horizontally) */
-.table-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 25px;
-    height: 100%;
-    background: linear-gradient(to left, #0d0d0f, transparent);
-    pointer-events: none;
-}
-
-/* Prevent table from shrinking on mobile */
+/* Table that always fits screen width */
 table {
     width: 100%;
-    min-width: 600px; /* ensures sideways scrolling */
     border-collapse: collapse;
     background: #141417;
     color: #e0e0e0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
+    table-layout: fixed;       /* important: scales evenly */
 }
 
-/* ────────────────────────────────
-   Table Cells
-   ──────────────────────────────── */
+/* Cell appearance */
 td {
     padding: 12px 10px;
     border-bottom: 1px solid #2a2a2d;
-    font-size: 0.95rem;
-    word-break: break-word;
+    font-size: 1rem;
+    word-wrap: break-word;
 }
 
-/* Header Row */
+/* Header */
 .header td {
     background: #1f1f23;
     color: #ffffff;
     font-weight: 600;
 }
 
-/* Hover Effect (desktop & mobile) */
+/* Hover effect */
 tr:hover td {
     background: #242428;
-    transition: background 0.15s ease;
+    transition: 0.12s ease-in-out;
 }
 
-/* Remove last row border */
+/* Remove last border */
 tr:last-child td {
     border-bottom: none;
 }
 
-/* ────────────────────────────────
-   Mobile Tweaks
-   ──────────────────────────────── */
+/* Mobile scaling */
 @media (max-width: 600px) {
     td {
-        padding: 10px 8px;
-        font-size: 0.88rem;
+        padding: 8px 6px;
+        font-size: 0.85rem;   /* scales text down */
     }
 
     table {
@@ -90,12 +64,6 @@ tr:last-child td {
     }
 
     body {
-        padding-left: 6px;
-        padding-right: 6px;
-    }
-
-    /* Make scrolling easier to see on mobile */
-    .table-wrapper {
-        margin-top: 5px;
+        padding: 8px;
     }
 }
