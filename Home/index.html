@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Google Sheets</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
@@ -22,16 +22,39 @@
             return new Date(ts);
         }
 
-        function buildTable(rows) {
-            let html = `<div class="table-wrapper"><table>`;
+        // Convert timestamp to "h:mm AM/PM"
+        function formatTime(ts) {
+            const d = new Date(ts);
+            let hours = d.getHours();
+            const minutes = String(d.getMinutes()).padStart(2, "0");
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+            return `${hours}:${minutes} ${ampm}`;
+        }
 
-            rows.forEach((row, idx) => {
-                html += idx === 0 ? "<tr class='header'>" : "<tr>";
-                row.forEach(cell => html += `<td>${cell}</td>`);
+        function buildTable(header, body, timestampIndex) {
+            let html = "<table><tr class='header'>";
+
+            // Header row
+            header.forEach(h => {
+                html += `<td>${h}</td>`;
+            });
+            html += "</tr>";
+
+            // Data rows
+            body.forEach(row => {
+                html += "<tr>";
+                row.forEach((cell, i) => {
+                    if (i === timestampIndex) {
+                        html += `<td>${formatTime(cell)}</td>`;
+                    } else {
+                        html += `<td>${cell}</td>`;
+                    }
+                });
                 html += "</tr>";
             });
 
-            html += "</table></div>";
+            html += "</table>";
             return html;
         }
 
@@ -39,23 +62,19 @@
             .then(res => res.text())
             .then(csv => {
                 let rows = parseCSV(csv);
-
                 const header = rows[0];
                 const body = rows.slice(1);
 
                 const timestampIndex = header.indexOf("Timestamp");
 
-                if (timestampIndex !== -1) {
-                    body.sort((a, b) => {
-                        const dateA = parseTimestamp(a[timestampIndex]);
-                        const dateB = parseTimestamp(b[timestampIndex]);
-                        return dateB - dateA;
-                    });
-                }
+                body.sort((a, b) => {
+                    const dateA = parseTimestamp(a[timestampIndex]);
+                    const dateB = parseTimestamp(b[timestampIndex]);
+                    return dateB - dateA;
+                });
 
-                const sortedRows = [header, ...body];
                 document.getElementById("table-container").innerHTML =
-                    buildTable(sortedRows);
+                    buildTable(header, body, timestampIndex);
             })
             .catch(err => {
                 document.getElementById("table-container").textContent =
